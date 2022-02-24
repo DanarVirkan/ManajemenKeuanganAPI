@@ -1,0 +1,28 @@
+{
+  "name": "transaksikeuangan",
+  "version": "1.0.0",
+  "description": "REST API Transaksi Keuangan",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app",
+    "start:dev": "nodemon src/app",
+    "test": "jest --setupFiles dotenv/config -i --detectOpenHandles",
+    "migrate": "node-pg-migrate",
+    "migrate:test": "node-pg-migrate -f config/database/test.json"
+  },
+  "author": "DanarVirkan",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^27.2.5",
+    "@types/jest": "^27.0.2",
+    "node-pg-migrate": "^6.0.0",
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "@hapi/hapi": "^20.2.1",
+    "@hapi/jwt": "^2.1.0",
+    "dotenv": "^10.0.0",
+    "nanoid": "^3.1.30",
+    "pg": "^8.7.1"
+  }
+}
