@@ -7,7 +7,7 @@ class ContextRepository {
     throw new Error("CONTEXT_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }
 
-  async getContextByUserId(userId) {
+  async getContextsByUserId(userId) {
     throw new Error("CONTEXT_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }
 
