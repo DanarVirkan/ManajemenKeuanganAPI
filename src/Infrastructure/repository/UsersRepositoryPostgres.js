@@ -1,13 +1,17 @@
 const UsersRepository = require("../../Domain/UsersRepository");
-const pool = require("../database/postgress/pool");
 
 class UsersRepositoryPostgres extends UsersRepository {
+  constructor({ pool, idGenerator }) {
+    this._pool = pool;
+    this._idGenerator = idGenerator;
+  }
   async addUser(nama) {
+    const id = "user-" + this._idGenerator();
     const query = {
-      text: "INSERT INTO users (nama) VALUES ($1) RETURNING id",
-      values: [nama],
+      text: "INSERT INTO users (id, nama) VALUES ($1, $2) RETURNING id",
+      values: [id, nama],
     };
-    const result = await pool.query(query);
+    const result = await this._pool.query(query);
     return result.rows[0].id;
   }
 
@@ -15,7 +19,7 @@ class UsersRepositoryPostgres extends UsersRepository {
     const query = {
       text: "SELECT * FROM users",
     };
-    const result = await pool.query(query);
+    const result = await this._pool.query(query);
     return result.rows;
   }
 
@@ -24,16 +28,25 @@ class UsersRepositoryPostgres extends UsersRepository {
       text: "SELECT * FROM users WHERE id = $1",
       values: [id],
     };
-    const result = await pool.query(query);
+    const result = await this._pool.query(query);
     return result.rows[0];
   }
 
   async editUserById(id, { nama, balance }) {
-    const query = {
-      text: "UPDATE FROM users SET nama = $2, balance = $3 WHERE id = $1 RETURNING id",
-      values: [id, nama, balance],
-    };
-    const result = await pool.query(query);
+    let query;
+    if (nama) {
+      query = {
+        text: "UPDATE FROM users SET nama = $2 WHERE id = $1 RETURNING id",
+        values: [id, nama],
+      };
+    }
+    if (balance) {
+      query = {
+        text: "UPDATE FROM users SET balance = $2 WHERE id = $1 RETURNING id",
+        values: [id, balance],
+      };
+    }
+    const result = await this._pool.query(query);
     return result.rows[0].id;
   }
 
@@ -41,7 +54,7 @@ class UsersRepositoryPostgres extends UsersRepository {
     const query = {
       text: "SELECT * FROM users WHERE balance > 0",
     };
-    const result = await pool.query(query);
+    const result = await this._pool.query(query);
     return result.rows;
   }
 }

@@ -1,13 +1,18 @@
 const ContextRepository = require("../../Domain/ContextRepository");
-const pool = require("../database/postgress/pool");
 
 class ContextRepositoryPostgres extends ContextRepository {
+  constructor({ pool, idGenerator }) {
+    this._pool = pool;
+    this._idGenerator = idGenerator;
+  }
+
   async addContext({ deskripsi, jumlah, userId }) {
+    const id = "context-" + this._idGenerator();
     const query = {
-      text: "INSERT INTO context (deskripsi, jumlah, user_id) VALUES ($1, $2, $3) RETURNING id",
-      values: [deskripsi, jumlah, userId],
+      text: "INSERT INTO context (id, deskripsi, jumlah, user_id) VALUES ($1, $2, $3, $4) RETURNING id",
+      values: [id, deskripsi, jumlah, userId],
     };
-    const result = await pool.query(query);
+    const result = await this._pool.query(query);
     return result.rows[0].id;
   }
 
@@ -15,7 +20,7 @@ class ContextRepositoryPostgres extends ContextRepository {
     const query = {
       text: "SELECT * FROM context",
     };
-    const result = await pool.query(query);
+    const result = await this._pool.query(query);
     return result.rows;
   }
 
@@ -24,7 +29,7 @@ class ContextRepositoryPostgres extends ContextRepository {
       text: "SELECT * FROM context WHERE user_id = $1",
       values: [userId],
     };
-    const result = await pool.query(query);
+    const result = await this._pool.query(query);
     return result.rows;
   }
 
@@ -33,7 +38,7 @@ class ContextRepositoryPostgres extends ContextRepository {
       text: "UPDATE FROM context SET lunas = true WHERE id = $1 RETURNING id",
       values: [id],
     };
-    const result = await pool.query(query);
+    const result = await this._pool.query(query);
     return result.rows[0].id;
   }
 
@@ -42,7 +47,7 @@ class ContextRepositoryPostgres extends ContextRepository {
       text: "DELETE FROM context WHERE id = $1 RETURNING id",
       values: [id],
     };
-    const result = await pool.query(query);
+    const result = await this._pool.query(query);
     return result.rows[0].id;
   }
 }
