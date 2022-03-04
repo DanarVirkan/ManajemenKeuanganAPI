@@ -1,7 +1,8 @@
 const TransaksiRepository = require("../../Domain/TransaksiRepository");
 
 class TransaksiRepositoryPostgres extends TransaksiRepository {
-  constructor({ pool, idGenerator }) {
+  constructor(pool, idGenerator) {
+    super();
     this._pool = pool;
     this._idGenerator = idGenerator;
   }

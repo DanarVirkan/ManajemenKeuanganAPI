@@ -1,7 +1,8 @@
 const ContextRepository = require("../../Domain/ContextRepository");
 
 class ContextRepositoryPostgres extends ContextRepository {
-  constructor({ pool, idGenerator }) {
+  constructor(pool, idGenerator) {
+    super();
     this._pool = pool;
     this._idGenerator = idGenerator;
   }
