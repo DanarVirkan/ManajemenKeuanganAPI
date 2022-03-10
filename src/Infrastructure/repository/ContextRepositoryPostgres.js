@@ -17,12 +17,22 @@ class ContextRepositoryPostgres extends ContextRepository {
     return result.rows[0].id;
   }
 
-  async getContexts() {
+  async getContexts(lunas = false) {
     const query = {
-      text: "SELECT * FROM context",
+      text: "SELECT * FROM context WHERE lunas = $1",
+      values: [lunas],
     };
     const result = await this._pool.query(query);
     return result.rows;
+  }
+
+  async getContextById(id) {
+    const query = {
+      text: "SELECT * FROM context WHERE id = $1",
+      values: [id],
+    };
+    const result = await this._pool.query(query);
+    return result.rows[0];
   }
 
   async getContextsByUserId(userId) {
@@ -36,7 +46,7 @@ class ContextRepositoryPostgres extends ContextRepository {
 
   async setLunasById(id) {
     const query = {
-      text: "UPDATE FROM context SET lunas = true WHERE id = $1 RETURNING id",
+      text: "UPDATE context SET lunas = true WHERE id = $1 RETURNING id",
       values: [id],
     };
     const result = await this._pool.query(query);

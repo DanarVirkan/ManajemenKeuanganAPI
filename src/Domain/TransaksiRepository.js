@@ -7,10 +7,18 @@ class TransaksiRepository {
     throw new Error("TRANSAKSI_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }
 
+  async getTransaksiTotalMonthly(tipe) {
+    throw new Error("TRANSAKSI_REPOSITORY.METHOD_NOT_IMPLEMENTED");
+  }
+
   async getTransaksiByUserId(userId) {
     throw new Error("TRANSAKSI_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }
-  
+
+  async getTerbayarByContextId(contextId) {
+    throw new Error("TRANSAKSI_REPOSITORY.METHOD_NOT_IMPLEMENTED");
+  }
+
   async getTransaksiByMonth(date) {
     throw new Error("TRANSAKSI_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }

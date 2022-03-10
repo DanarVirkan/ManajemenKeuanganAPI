@@ -3,7 +3,11 @@ class ContextRepository {
     throw new Error("CONTEXT_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }
 
-  async getContexts() {
+  async getContexts(lunas) {
+    throw new Error("CONTEXT_REPOSITORY.METHOD_NOT_IMPLEMENTED");
+  }
+
+  async getContextById(id) {
     throw new Error("CONTEXT_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }
 
@@ -14,7 +18,7 @@ class ContextRepository {
   async setLunasById(id) {
     throw new Error("CONTEXT_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }
-  
+
   async deleteContextById(id) {
     throw new Error("CONTEXT_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }
