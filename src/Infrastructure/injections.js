@@ -21,9 +21,13 @@ const useCaseInstance = {
   }),
   contextUseCase: new ContextUseCase({
     contextRepository: serviceInstance.contextRepository,
+    usersRepository: serviceInstance.usersRepository,
+    transaksiRepository: serviceInstance.transaksiRepository,
   }),
   transaksiUseCase: new TransaksiUseCase({
+    usersRepository: serviceInstance.usersRepository,
     transaksiRepository: serviceInstance.transaksiRepository,
+    contextRepository: serviceInstance.contextRepository,
   }),
 };
 
