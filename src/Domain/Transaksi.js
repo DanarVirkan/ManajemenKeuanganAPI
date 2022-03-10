@@ -1,9 +1,20 @@
 class Transaksi {
   constructor(payload) {
-    const { transaksiId, deskripsi, jumlah, tipe, namaUser, tgl } = payload;
-    this._verifyPayload(payload);
+    const {
+      transaksiId,
+      deskripsi,
+      jumlah,
+      tipe,
+      namaUser,
+      tgl,
+      deskripsiContext,
+    } = payload;
+    // this._verifyPayload(payload);
 
     this.transaksiId = transaksiId;
+    if (deskripsiContext) {
+      this.deskripsiContext = deskripsiContext;
+    }
     this.deskripsi = deskripsi;
     this.jumlah = jumlah;
     this.tipe = tipe;

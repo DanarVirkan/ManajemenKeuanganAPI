@@ -8,7 +8,7 @@ class Users {
     this.balance = balance;
   }
   _verifyPayload({ userId, nama, balance }) {
-    if (!userId || !nama || balance !== undefined) {
+    if (!userId || !nama ) {
       throw new Error("USERS.NOT_CONTAIN_NEEDED_PROPERTY");
     }
     if (

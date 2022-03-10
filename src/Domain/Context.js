@@ -1,22 +1,19 @@
 class Context {
   constructor(payload) {
-    const { contextId, userId, deskripsi, jumlah, lunas } = payload;
-    this._verifyPayload(payload);
+    const { contextId, userId, nama, deskripsi, jumlah, terbayar, lunas } =
+      payload;
+    // this._verifyPayload(payload);
 
     this.contextId = contextId;
     this.userId = userId;
+    this.nama = nama;
     this.deskripsi = deskripsi;
     this.jumlah = jumlah;
+    this.terbayar = terbayar;
     this.lunas = lunas;
   }
   _verifyPayload({ contextId, userId, deskripsi, jumlah, lunas }) {
-    if (
-      !contextId ||
-      !userId ||
-      !deskripsi ||
-      jumlah !== undefined ||
-      lunas !== undefined
-    ) {
+    if (!contextId || !userId || !deskripsi) {
       throw new Error("CONTEXT.NOT_CONTAIN_NEEDED_PROPERTY");
     }
     if (
