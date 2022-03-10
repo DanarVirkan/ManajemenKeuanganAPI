@@ -5,6 +5,7 @@ class ContextHandler {
     this.postContext = this.postContext.bind(this);
     this.getContexts = this.getContexts.bind(this);
     this.getContextsByUserId = this.getContextsByUserId.bind(this);
+    this.getSisaPembayaran = this.getSisaPembayaran.bind(this);
     this.updateContextLunas = this.updateContextLunas.bind(this);
     this.deleteContextById = this.deleteContextById.bind(this);
   }
@@ -46,6 +47,19 @@ class ContextHandler {
         message: "success",
         data: {
           contexts,
+        },
+      })
+      .code(200);
+  }
+
+  async getSisaPembayaran(req, h) {
+    const { contextId } = req.params;
+    const sisa = await this._contextUseCase.getSisaPembayaran(contextId);
+    return h
+      .response({
+        message: "success",
+        data: {
+          sisa,
         },
       })
       .code(200);

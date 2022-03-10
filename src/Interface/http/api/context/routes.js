@@ -15,6 +15,11 @@ const routes = (handler) => [
     handler: handler.getContextsByUserId,
   },
   {
+    method: "GET",
+    path: "/context/{contextId}/sisa",
+    handler: handler.getSisaPembayaran,
+  },
+  {
     method: "UPDATE",
     path: "/context/{contextId}/lunas",
     handler: handler.updateContextLunas,
