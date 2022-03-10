@@ -15,7 +15,10 @@ exports.up = (pgm) => {
     },
     deskripsi: "TEXT",
     jumlah: "INT",
-    lunas: "BOOLEAN",
+    lunas: {
+      type: "BOOLEAN",
+      default: false,
+    },
   });
   pgm.createIndex("context", "user_id");
 };
