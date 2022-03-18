@@ -1,5 +1,5 @@
 class UsersRepository {
-  async addUser(nama) {
+  async addUser(name) {
     throw new Error("USERS_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }
 
@@ -15,7 +15,7 @@ class UsersRepository {
     throw new Error("USERS_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }
 
-  async editUserById(id, { nama, balance }) {
+  async editUserById(id, { name, balance }) {
     throw new Error("USERS_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }
 }
