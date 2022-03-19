@@ -1,6 +1,6 @@
 const pool = require("../../database/postgress/pool");
 const TransactionRepository = require("../../../Domain/Transaction/TransactionRepository");
-const TransactionRepositoryPostgres = require("../TransaksiRepositoryPostgres");
+const TransactionRepositoryPostgres = require("../TransactionRepositoryPostgres");
 
 describe("TransactionRepositoryPostgres", () => {
   it("should instance of TransaksiRepository", () => {
