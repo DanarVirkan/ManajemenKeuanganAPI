@@ -1,13 +1,13 @@
-const ContextRepository = require("../../Domain/ContextRepository");
+const LoanRepository = require("../../Domain/Loan/LoanRepository");
 
-class ContextRepositoryPostgres extends ContextRepository {
+class LoanRepositoryPostgres extends LoanRepository {
   constructor(pool, idGenerator) {
     super();
     this._pool = pool;
     this._idGenerator = idGenerator;
   }
 
-  async addContext({ deskripsi, jumlah, userId }) {
+  async addLoan({ deskripsi, jumlah, userId }) {
     const id = "context-" + this._idGenerator();
     const query = {
       text: "INSERT INTO context (id, deskripsi, jumlah, user_id) VALUES ($1, $2, $3, $4) RETURNING id",
@@ -17,16 +17,20 @@ class ContextRepositoryPostgres extends ContextRepository {
     return result.rows[0].id;
   }
 
-  async getContexts(lunas = false) {
+  async getLoans(lunas = false) {
     const query = {
-      text: "SELECT * FROM context WHERE lunas = $1",
+      text:
+        "SELECT context.id, nama AS nama_user, context.deskripsi, context.jumlah, child_table.terbayar, lunas FROM context " +
+        "JOIN users ON context.user_id = users.id " +
+        "LEFT JOIN (SELECT SUM(jumlah) AS terbayar, context_id FROM transaksi WHERE tipe = 'IN' GROUP BY context_id) AS child_table ON child_table.context_id = context.id " +
+        "WHERE lunas = $1",
       values: [lunas],
     };
     const result = await this._pool.query(query);
     return result.rows;
   }
 
-  async getContextById(id) {
+  async getLoanById(id) {
     const query = {
       text: "SELECT * FROM context WHERE id = $1",
       values: [id],
@@ -35,7 +39,7 @@ class ContextRepositoryPostgres extends ContextRepository {
     return result.rows[0];
   }
 
-  async getContextsByUserId(userId) {
+  async getLoansByUserId(userId) {
     const query = {
       text: "SELECT * FROM context WHERE user_id = $1",
       values: [userId],
@@ -44,7 +48,7 @@ class ContextRepositoryPostgres extends ContextRepository {
     return result.rows;
   }
 
-  async setLunasById(id) {
+  async setPaidOffById(id) {
     const query = {
       text: "UPDATE context SET lunas = true WHERE id = $1 RETURNING id",
       values: [id],
@@ -53,7 +57,7 @@ class ContextRepositoryPostgres extends ContextRepository {
     return result.rows[0].id;
   }
 
-  async deleteContextById(id) {
+  async deleteLoanById(id) {
     const query = {
       text: "DELETE FROM context WHERE id = $1 RETURNING id",
       values: [id],
@@ -62,4 +66,4 @@ class ContextRepositoryPostgres extends ContextRepository {
     return result.rows[0].id;
   }
 }
-module.exports = ContextRepositoryPostgres;
+module.exports = LoanRepositoryPostgres;

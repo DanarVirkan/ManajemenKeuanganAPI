@@ -1,13 +1,13 @@
-const TransaksiRepository = require("../../Domain/TransaksiRepository");
+const TransactionRepository = require("../../Domain/Transaction/TransactionRepository");
 
-class TransaksiRepositoryPostgres extends TransaksiRepository {
+class TransactionRepositoryPostgres extends TransactionRepository {
   constructor(pool, idGenerator) {
     super();
     this._pool = pool;
     this._idGenerator = idGenerator;
   }
 
-  async addTransaksi({ deskripsi, jumlah, tipe, userId, contextId = null }) {
+  async addTransaction({ deskripsi, jumlah, tipe, userId, contextId = null }) {
     const id = "tr-" + this._idGenerator();
     const query = {
       text: "INSERT INTO transaksi (id, deskripsi, jumlah, tipe, user_id, context_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
@@ -18,15 +18,20 @@ class TransaksiRepositoryPostgres extends TransaksiRepository {
     return result.rows;
   }
 
-  async getTransaksis() {
+  async getTransactions() {
     const query = {
-      text: "SELECT * FROM transaksi",
+      text:
+        "SELECT context.deskripsi AS deskripsi_context, transaksi.id, transaksi.deskripsi, transaksi.jumlah, tipe, users.nama AS nama_user, tgl FROM transaksi " +
+        "JOIN users ON users.id = transaksi.user_id " +
+        "JOIN context ON transaksi.context_id = context.id " +
+        "ORDER BY tgl DESC " +
+        "LIMIT 20",
     };
     const result = await this._pool.query(query);
     return result.rows;
   }
 
-  async getTransaksiTotalMonthly(tipe) {
+  async getTransactionTotalMonthly(tipe) {
     const query = {
       text: "SELECT SUM(jumlah) as total FROM transaksi WHERE tipe = $1 AND EXTRACT(MONTH FROM tgl) = EXTRACT(MONTH FROM now())",
       values: [tipe],
@@ -35,7 +40,7 @@ class TransaksiRepositoryPostgres extends TransaksiRepository {
     return parseInt(result.rows[0].total);
   }
 
-  async getTransaksiByUserId(userId) {
+  async getTransactionByUserId(userId) {
     const query = {
       text: "SELECT * FROM transaksi WHERE user_id = $1",
       values: [userId],
@@ -44,7 +49,7 @@ class TransaksiRepositoryPostgres extends TransaksiRepository {
     return result.rows;
   }
 
-  async getTerbayarByContextId(contextId) {
+  async getPaidByLoanId(contextId) {
     const query = {
       text: "SELECT SUM(jumlah) AS total FROM transaksi WHERE context_id = $1 AND tipe = 'IN'",
       values: [contextId],
@@ -53,7 +58,7 @@ class TransaksiRepositoryPostgres extends TransaksiRepository {
     return parseInt(result.rows[0].total);
   }
 
-  async getTransaksiByMonth(date) {
+  async getTransactionByMonth(date) {
     const query = {
       text: "SELECT * FROM transaksi WHERE MONTH(tgl) = MONTH($1)",
       values: [date],
@@ -62,4 +67,4 @@ class TransaksiRepositoryPostgres extends TransaksiRepository {
     return result.rows;
   }
 }
-module.exports = TransaksiRepositoryPostgres;
+module.exports = TransactionRepositoryPostgres;
