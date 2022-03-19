@@ -20,7 +20,7 @@ class LoanRepositoryPostgres extends LoanRepository {
   async getLoans(lunas = false) {
     const query = {
       text:
-        "SELECT context.id, nama AS nama_user, context.deskripsi, context.jumlah, child_table.terbayar, lunas FROM context " +
+        "SELECT context.id, nama AS nama_user, context.deskripsi, context.jumlah, CAST(child_table.terbayar AS INT), lunas FROM context " +
         "JOIN users ON context.user_id = users.id " +
         "LEFT JOIN (SELECT SUM(jumlah) AS terbayar, context_id FROM transaksi WHERE tipe = 'IN' GROUP BY context_id) AS child_table ON child_table.context_id = context.id " +
         "WHERE lunas = $1",

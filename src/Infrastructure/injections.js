@@ -2,32 +2,32 @@ const pool = require("./database/postgress/pool");
 const { nanoid } = require("nanoid");
 
 const UsersRepositoryPostgres = require("./repository/UsersRepositoryPostgres");
-const ContextRepositoryPostgres = require("./repository/ContextRepositoryPostgres");
-const TransaksiRepositoryPostgres = require("./repository/TransaksiRepositoryPostgres");
+const LoanRepositoryPostgres = require("./repository/LoanRepositoryPostgres");
+const TransactionRepositoryPostgres = require("./repository/TransactionRepositoryPostgres");
 
-const UserUseCase = require("../Application/use_case/UserUseCase");
-const ContextUseCase = require("../Application/use_case/ContextUseCase");
-const TransaksiUseCase = require("../Application/use_case/TransaksiUseCase");
+const UsersUseCase = require("../Application/use_case/UsersUseCase");
+const LoanUseCase = require("../Application/use_case/LoanUseCase");
+const TransactionUseCase = require("../Application/use_case/TransactionUseCase");
 
 const serviceInstance = {
   usersRepository: new UsersRepositoryPostgres(pool, nanoid),
-  contextRepository: new ContextRepositoryPostgres(pool, nanoid),
-  transaksiRepository: new TransaksiRepositoryPostgres(pool, nanoid),
+  loanRepository: new LoanRepositoryPostgres(pool, nanoid),
+  transactionRepository: new TransactionRepositoryPostgres(pool, nanoid),
 };
 
 const useCaseInstance = {
-  usersUseCase: new UserUseCase({
+  usersUseCase: new UsersUseCase({
     usersRepository: serviceInstance.usersRepository,
   }),
-  contextUseCase: new ContextUseCase({
-    contextRepository: serviceInstance.contextRepository,
+  contextUseCase: new LoanUseCase({
+    loanRepository: serviceInstance.loanRepository,
     usersRepository: serviceInstance.usersRepository,
-    transaksiRepository: serviceInstance.transaksiRepository,
+    transactionRepository: serviceInstance.transactionRepository,
   }),
-  transaksiUseCase: new TransaksiUseCase({
+  transaksiUseCase: new TransactionUseCase({
     usersRepository: serviceInstance.usersRepository,
-    transaksiRepository: serviceInstance.transaksiRepository,
-    contextRepository: serviceInstance.contextRepository,
+    transactionRepository: serviceInstance.transactionRepository,
+    loanRepository: serviceInstance.loanRepository,
   }),
 };
 
