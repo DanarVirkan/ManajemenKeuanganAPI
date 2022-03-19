@@ -15,7 +15,7 @@ class TransactionRepository {
     throw new Error("TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }
 
-  async getPaidOffByLoanId(contextId) {
+  async getPaidByLoanId(contextId) {
     throw new Error("TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }
 

@@ -15,7 +15,7 @@ describe("Transaction Repository", () => {
     expect(transactionRepo.getTransactionByUserId("")).rejects.toThrowError(
       "TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED"
     );
-    expect(transactionRepo.getPaidOffByLoanId("")).rejects.toThrowError(
+    expect(transactionRepo.getPaidByLoanId("")).rejects.toThrowError(
       "TRANSACTION_REPOSITORY.METHOD_NOT_IMPLEMENTED"
     );
     expect(transactionRepo.getTransactionByMonth("")).rejects.toThrowError(
