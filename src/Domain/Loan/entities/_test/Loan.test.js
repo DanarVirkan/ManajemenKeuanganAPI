@@ -9,7 +9,7 @@ describe("Loan entites", () => {
       total: 12000,
     };
     expect(() => new Loan(payload)).toThrowError(
-      "PIUTANG.NOT_CONTAIN_NEEDED_PROPERTY"
+      "LOAN.NOT_CONTAIN_NEEDED_PROPERTY"
     );
   });
   it("should throw error when not meet data type specification", () => {
@@ -22,7 +22,7 @@ describe("Loan entites", () => {
       paidOff: false,
     };
     expect(() => new Loan(payload)).toThrowError(
-      "PIUTANG.NOT_MEET_DATA_TYPE_SPECIFICATION"
+      "LOAN.NOT_MEET_DATA_TYPE_SPECIFICATION"
     );
   });
   it("should not throw error when data inputted correctly", () => {
@@ -35,10 +35,10 @@ describe("Loan entites", () => {
       paidOff: true,
     };
     expect(() => new Loan(payload)).not.toThrowError(
-      "PIUTANG.NOT_CONTAIN_NEEDED_PROPERTY"
+      "LOAN.NOT_CONTAIN_NEEDED_PROPERTY"
     );
     expect(() => new Loan(payload)).not.toThrowError(
-      "PIUTANG.NOT_MEET_DATA_TYPE_SPECIFICATION"
+      "LOAN.NOT_MEET_DATA_TYPE_SPECIFICATION"
     );
   });
 });

@@ -20,7 +20,7 @@ class Loan {
       paid === undefined ||
       paidOff === undefined
     ) {
-      throw new Error("PIUTANG.NOT_CONTAIN_NEEDED_PROPERTY");
+      throw new Error("LOAN.NOT_CONTAIN_NEEDED_PROPERTY");
     }
     if (
       typeof loanId !== "string" ||
@@ -30,7 +30,7 @@ class Loan {
       typeof paid !== "number" ||
       typeof paidOff !== "boolean"
     ) {
-      throw new Error("PIUTANG.NOT_MEET_DATA_TYPE_SPECIFICATION");
+      throw new Error("LOAN.NOT_MEET_DATA_TYPE_SPECIFICATION");
     }
   }
 }
